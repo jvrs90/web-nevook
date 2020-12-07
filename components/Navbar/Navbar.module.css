@@ -1,0 +1,10 @@
+.Navbar__menu-container{
+
+}
+.Navbar__menu-container ul li {
+  margin: 0 10px;
+}
+
+.Navbar__menu-container ul li:last-child {
+  margin: 0 0;
+}
