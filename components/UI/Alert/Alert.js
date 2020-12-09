@@ -22,7 +22,7 @@ const Alert = ({ color, titleAlert, messageAlert }) => {
   }
 
   return (
-    <div className={`alert flex flex-row items-center bg-${color}-200 p-5 rounded border-b-2 border-${color}-300`}>
+    <div className={`alert flex flex-row items-center mb-6 bg-${color}-200 p-5 rounded border-b-2 border-${color}-300`}>
       <div className={`alert-icon flex items-center bg-${color}-100 border-2 border-${color}-500 justify-center h-10 w-10 flex-shrink-0 rounded-full`}>
         <span className={`text-${color}-500`}>
           <Icon />

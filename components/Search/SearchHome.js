@@ -6,8 +6,8 @@ const SearchHome = () => {
   return (
     <>
       <div className="container-full bg-orange-500 py-10">
-        <Heading as="h2" className="h2 text-center text-white">Busca tu siguiente libro</Heading>
-        <div className="text-center text-orange-100">
+        <Heading as="h2" className="h2 text-center text-white mb-2"> 🔎 Busca tu siguiente libro</Heading>
+        <div className="text-center text-orange-100 mb-10">
           Haz una búsqueda rápida y encuentra tu siguiente lectura
         </div>
         <div className="mx-auto">

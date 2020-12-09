@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Router from 'next/router'
 import { useContext, useState } from 'react'
 import { useForm } from "react-hook-form";
 import AuthContext from "../../lib/context/AuthContext";
@@ -7,18 +8,36 @@ import LockIcon from "../Icons/generic/LockIcon";
 import ArrowRight from "../Icons/generic/ArrowRight";
 import UserPlus from '../Icons/generic/UserPlus';
 import Alert from '../UI/Alert/Alert'
+import axios from 'axios';
+
 
 const Signin = () => {
-  const { register, handleSubmit, watch, errors } = useForm();
+  // const [auth, setAuth] = useState({})
+  const { auth, setAuth } = useContext(AuthContext)
+  const { register, handleSubmit, errors } = useForm();
 
-  const { setAuth } = useContext(AuthContext)
-
-  const onSubmit = data => {
-    setAuth(data.email)
+  const onSubmit = async (data) => {
+    try {
+      const res = await loginAuth(data)
+      if (res.error) {
+        setAuth(res)
+        return res
+      } else {
+        const { user: { _id, username, alias } } = res
+        setAuth({ id: _id, username, alias })
+        setTimeout(() => {
+          Router.push(`/perfil/${alias}`)
+        }, 1000);
+        return res
+      }
+    } catch (error) {
+      console.log('Un error inesperado', error)
+    }
   }
 
   return (
     <>
+
       <div className="flex flex-col">
         <button className="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
           <span className="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500"><i className="fab fa-facebook-f"></i></span>
@@ -31,8 +50,9 @@ const Signin = () => {
         </div>
         <div className="mt-10">
 
-          {/* <Alert color='red' titleAlert='Error' messageAlert='Datos incorrectos' />
-          <Alert color='green' titleAlert='Logueado' messageAlert='Bienvenido a Nevook' /> */}
+          {auth?.error &&
+            <Alert color='red' titleAlert={`${auth.error}`} messageAlert={`${auth.message}`} />
+          }
 
           <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -111,5 +131,41 @@ const Signin = () => {
     </>
   )
 }
+
+const loginAuth = async (body) => {
+  try {
+    const response = await axios.post('http://localhost:3001/auth/signin', body, {
+      body: {
+        email: body.email,
+        password: body.password
+      }
+    })
+
+    if (response.error) {
+      console.log('Ha ocurrido un error el intento de inicio de sesion', response.error)
+    } else {
+      return {
+        jwt: response.data.accessToken,
+        user: response.data.user,
+        message: 'Bienvenido a Nevook'
+      }
+      // //TODO: FUNCIONA!!!!!!
+      // const jwt = response.data.accessToken;
+      // const user = response.data.user;
+      // console.log('Bienvenido a Nevook', jwt, user)
+    }
+  } catch (error) {
+    return {
+      statusCode: error.response.data.statusCode,
+      error: error.response.data.error,
+      message: error.response.data.message
+    }
+  } finally {
+    console.log('Finally')
+  }
+
+}
+
+
 
 export default Signin

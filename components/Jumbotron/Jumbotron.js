@@ -4,16 +4,9 @@ import Modal from '../Modal/Modal'
 import Register from '../Signup/Signup'
 
 const Jumbotron = () => {
-  const [isModalOpenedRegister, setIsModalOpenedRegister, toggleModalRegister] = useModal();
+
   return (
     <>
-      <Modal
-        isOpen={isModalOpenedRegister}
-        title='Registro'
-        handleClose={() => setIsModalOpenedRegister(false)}
-      >
-        <Register />
-      </Modal>
       <header>
         <div className="w-full bg-cover bg-center" style={{ height: '32rem', backgroundImage: "url('/images/jbt-container.jpg')" }}>
           <div className="flex items-center justify-center h-full w-full bg-gray-900 bg-opacity-50">

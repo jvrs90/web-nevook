@@ -3,6 +3,12 @@ module.exports = {
   darkMode: 'media', // or 'media' or 'class'
   important: true,
   theme: {
+    gradientColorStops: theme => ({
+      ...theme('colors'),
+      'primary': '#3490dc',
+      'secondary': '#ffed4a',
+      'danger': '#e3342f',
+    }),
     fontFamily: {
       display: ['Quicksand', 'sans-serif'],
       body: ['Quicksand', 'sans-serif'],

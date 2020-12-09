@@ -1,5 +1,9 @@
+import Link from "next/link"
+import { useContext } from "react"
+import AuthContext from "../../lib/context/AuthContext"
 
-const NavbarV2 = () => {
+const NavbarLogged = () => {
+  const { auth } = useContext(AuthContext)
   return (
     <>
       <nav className="bg-white shadow">
@@ -21,9 +25,12 @@ const NavbarV2 = () => {
 
 
             <div className="hidden -mx-4 md:flex md:items-center">
-              <a href="#" className="block mx-4 mt-2 md:mt-0 text-sm text-gray-700 capitalize hover:text-blue-600">Inicio</a>
-              <a href="#" className="block mx-4 mt-2 md:mt-0 text-sm text-gray-700 capitalize hover:text-blue-600">Inicar sesión</a>
-              <a href="#" className="btn-secondary block mx-4 mt-2 md:mt-0 text-sm text-gray-700 capitalize hover:text-blue-600">Registrarse</a>
+              <Link href="/">
+                <a className="block mx-4 mt-2 md:mt-0 text-sm text-gray-700 capitalize hover:text-blue-600">Inicio</a>
+              </Link>
+              <Link href={`/perfil/${auth.alias}`}>
+                <a className="block mx-4 mt-2 md:mt-0 text-sm text-gray-700 capitalize hover:text-blue-600">{auth.username}</a>
+              </Link>
             </div>
           </div>
         </div>
@@ -32,4 +39,4 @@ const NavbarV2 = () => {
   )
 }
 
-export default NavbarV2
+export default NavbarLogged
